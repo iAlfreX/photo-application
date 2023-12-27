@@ -1,0 +1,19 @@
+# Файл із налаштуваннями для редактора.
+#
+# Якщо ви розробляєте у редакторі WebStorm, BBEdit, Coda чи SourceLair
+# цей файл вже підтримується і не потрібно робити жодних додаткових дій.
+#
+# Якщо ви ведете розробку в іншому редакторі, зайдіть
+# на http://editorconfig.org та у розділі «Download a Plugin»
+# Завантажте додаток для вашого редактора.
+
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true

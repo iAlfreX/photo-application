@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58.9 51.9" style="enable-background:new 0 0 58.9 51.9;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#EB0A34;}
+	.st1{fill:url(#SVGID_1_);}
+</style>
+<g>
+	<g>
+		<g>
+			<path class="st0" d="M55,48H3.9l-3-5.4L1,42.5L26.5,2.3h5.9l25.5,40.4L55,48z M4.2,47.5h50.4l2.7-4.8L32.1,2.8h-5.3L1.6,42.7
+				L4.2,47.5z"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<g>
+				
+					<rect x="45.8" y="10.4" transform="matrix(0.8452 -0.5345 0.5345 0.8452 -7.7161 28.9203)" class="st0" width="0.5" height="34.7"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				
+					<rect x="-4.6" y="27.5" transform="matrix(0.534 -0.8455 0.8455 0.534 -17.5177 23.7751)" class="st0" width="34.7" height="0.5"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon class="st0" points="33,7.6 31.3,4.9 27.6,4.9 25.9,7.6 25.4,7.3 27.3,4.4 31.6,4.4 33.4,7.3 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<g>
+					<rect x="7.4" y="45.8" class="st0" width="44" height="0.5"/>
+				</g>
+			</g>
+			<polygon class="st0" points="11.1,46.3 10.2,45.4 6.4,45.4 5.5,46.3 			"/>
+			<polygon class="st0" points="53.4,46.3 52.5,45.4 48.7,45.4 47.7,46.3 			"/>
+		</g>
+	</g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="17.7792" y1="23.9624" x2="39.5325" y2="40.3728">
+		<stop  offset="0" style="stop-color:#EB0A34;stop-opacity:0.1"/>
+		<stop  offset="1" style="stop-color:#EB0A34;stop-opacity:0.15"/>
+	</linearGradient>
+	<path class="st1" d="M26.2,9.9L8.1,38.5c1.5,2.7,1.8,3.3,3.3,6h36.2c1.5-2.7,1.8-3.3,3.3-6L32.7,9.9C29.9,9.9,29,9.9,26.2,9.9z"/>
+	<polygon class="st0" points="11,47.8 12.8,49.6 45.3,49.6 47.2,47.8 	"/>
+	<polygon class="st0" points="13,24.2 18.1,16 16,15.9 11.4,23.2 6.8,30.5 7.8,32.3 	"/>
+	<polygon class="st0" points="45.9,24.2 40.8,16 42.8,15.9 47.5,23.2 52.1,30.5 51.1,32.3 	"/>
+	<rect x="27.6" y="36.1" class="st0" width="3.6" height="3.6"/>
+	<polygon class="st0" points="30.7,33.9 28.1,33.9 27.5,17.5 31.3,17.5 	"/>
+</g>
+</svg>

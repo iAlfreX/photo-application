@@ -1,0 +1,1421 @@
+/* Загальні стилі. Каркас
+   ========================================================================== */
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSansCondensed-Bold.woff2") format("woff2"),
+      url("../fonts/OpenSansCondensed-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Regular.woff2") format("woff2"),
+      url("../fonts/OpenSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+
+  background-color: #080608;
+}
+
+main {
+  position: relative;
+}
+
+.content-box-component {
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+.container {
+  width: 1360px;
+  margin: 0 auto;
+}
+
+.modal-open {
+  height: 100vh;
+  overflow: hidden;
+  padding-right: 17px;
+}
+
+.valid{
+  border: 2px solid green  !important;
+}
+.invalid{
+  border: 2px solid red !important;
+}
+
+/**
+ * Кнопка закриття модального вікна
+ */
+
+.cancel {
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  width: 42px;
+  height: 42px;
+
+  font-size: 0;
+
+  background-color: rgba(255, 255, 255, 0.2);
+  background-image: url("../img/icon-cross.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border: 0;
+  border-radius: 2px;
+
+  opacity: 0.6;
+}
+
+.cancel:hover,
+.cancel:focus {
+  background-color: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+}
+
+.cancel:active {
+          transform: translateY(1px);
+}
+
+
+/**
+ * Оверлей під екранами
+ */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  padding-top: 60px;
+  overflow: auto;
+
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Фільтри фотографій
+   ========================================================================== */
+.img-filters {
+  padding: 20px 0 27px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-pack: center;
+     -ms-flex-pack: center;
+   justify-content: center;
+}
+.img-filters--inactive {
+  opacity: 0;
+}
+.img-filters__form {
+  display: flex;
+}
+.img-filters__button {
+  color: #201150;
+  display: inline-block;
+  background: rgb(51 27 139);
+  background: linear-gradient(90deg, rgb(51 27 139) 0%, rgb(106 64 207) 100%);
+  border: none;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1em;
+  letter-spacing: 0.17em;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  transition: 0.2s;
+  -webkit-transition: 0.3s;
+  box-shadow: none;
+
+  position: relative;
+}
+.img-filters__button:hover {
+  box-shadow: 0 0 0 10px #3daaa200;
+  transition: .8s;
+  -webkit-transition: .8s;
+}
+@keyframes glow{
+  0% { box-shadow: 0 0 20px #8b61f844; text-shadow:  0 0 0px #efe1ff; }
+  40% { box-shadow: 0 0 100px #8b61f8ee; text-shadow:  0 0 10px #efe1ff;}
+  100% { box-shadow: 0 0 20px #8b61f844; text-shadow:  0 0 1px #efe1ff; }
+}
+.img-filters__button--active {
+  color: #efe1ff;
+
+  position: relative;
+
+  animation: glow 5s infinite;
+  animation-timing-function: ease-out;
+
+  background: rgb(138,97,248);
+  background: -moz-linear-gradient(left, rgba(138,97,248,1) 0%, rgba(236,95,231,1) 100%);
+  background: -webkit-linear-gradient(left, rgba(138,97,248,1) 0%,rgba(236,95,231,1) 100%);
+  background: linear-gradient(to right, rgba(138,97,248,1) 0%,rgba(236,95,231,1) 100%);
+}
+.img-filters__button--active:after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  height: 100%;
+  right: 80%;
+  width: 1px;
+  background-color: #ffffff00;
+  box-shadow: 0 0 20px #ffd2fe00, 0 0 10px #ffd2fe00, 0 0 5px #ffd2fe00, 0 0 2px #ffd2fe00;
+  opacity: 1;
+}
+.img-filters__button--active:hover:after {
+  right: 2%;
+  background-color: #ffffffff;
+  box-shadow: 0 0 30px #ffd2feff, 0 0 15px #ffd2feff, 0 0 7px #ffd2feff, 0 0 3px #ffd2feff;
+  opacity: 0;
+  transition: 0.6s;
+  -webkit-transition: 0.6s;
+}
+
+.img-filters__label {
+  padding: 5px 15px;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: auto;
+
+  cursor: pointer;
+}
+
+.img-filters__radio:focus + .img-filters__label {
+  outline: auto 5px highlight;
+}
+
+.img-filters__radio:checked + .img-filters__label {
+  color: #ff4e4e;
+  text-decoration: none;
+
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+
+/* Блок з фотографіями користувачів
+   ========================================================================== */
+
+.pictures {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 10px;
+
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+}
+.pictures::before, .pictures::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 8px;
+  width: 100%;
+}
+.pictures::before {
+  top: -18px;
+  background: linear-gradient(90deg, rgba(49,14,179,0) 0%, rgb(34 179 152) 38%, rgba(164,29,219,1) 75%, rgba(113,133,233,0) 100%);
+}
+.pictures::after {
+  bottom: -18px;
+  background: linear-gradient(90deg, rgba(49,14,179,0) 0%, rgb(49 59 179) 38%, rgb(151 55 191) 75%, rgba(113,133,233,0) 100%);
+}
+
+.picture {
+  position: relative;
+  line-height: 0;
+}
+
+.picture__img {
+  max-width: auto;
+  width: 100%;
+  height: auto;
+}
+
+.picture__info {
+  display: none;
+
+  margin: 0;
+  padding: 15px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+
+
+  transform: translateX(-50%);
+}
+
+.picture:hover .picture__info,
+.picture:focus .picture__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.picture__comments,
+.picture__likes {
+  padding-left: 30px;
+  position: relative;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.picture__comments {
+  margin-right: 10px;
+}
+
+.picture__comments::before,
+.picture__likes::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: -7px;
+
+  background-image: url("../img/sprite.png");
+  background-repeat: no-repeat;
+}
+
+.picture__comments::before {
+  width: 20px;
+  height: 16px;
+
+  background-position: -5px -5px;
+}
+
+.picture__likes::before {
+  width: 20px;
+  height: 16px;
+
+  background-position: -5px -31px;
+}
+
+
+/* Поле для завантаження нового фото
+   ========================================================================== */
+
+.img-upload {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 3;
+  grid-column: 3 / span 3;
+
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  grid-row: 1 / span 3;
+}
+
+.img-upload__wrapper {
+  margin: 0 auto;
+  padding-bottom: 60px;
+  width: 582px;
+
+  text-align: center;
+}
+
+.img-upload__form {
+  position: relative;
+  min-height: 569px;
+
+  background-color: #eed21e;
+  background-image: url("../img/logo-background-1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+
+  border: none;
+}
+
+.img-upload__start {
+  position: relative;
+
+  margin: 0;
+  padding: 0;
+  height: 569px;
+  min-height: 569px;
+
+  background-image: url("../img/logo-mask.png");
+  background-repeat: no-repeat;
+  background-position: center;
+
+  border: none;
+}
+
+.img-upload__label {
+  position: absolute;
+  display: block;
+  outline: none !important;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 260px;
+  height: 50px;
+
+  font-size: 0;
+
+  background-image: url("../img/upload-button.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-filter: drop-shadow(0 0 10px #ff28fa33);
+  filter: drop-shadow(0 0 10px #ff28fa33);
+  transition: .2s;
+
+  cursor: pointer;
+}
+.img-upload__label:hover {
+  -webkit-filter: drop-shadow(0 0 14px #ff28faff);
+  filter: drop-shadow(0 0 14px #ff28faff);
+}
+
+.img-upload__input:focus + .img-upload__label {
+  outline: auto 5px highlight;
+}
+
+
+/* Вікно для редагуання нового фото
+   ========================================================================== */
+
+.img-upload__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+
+  padding-top: 60px;
+  overflow: auto;
+
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.img-upload__preview-container {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+
+/**
+ * Кнопки зміни масштабу фото
+ */
+
+.img-upload__scale {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+
+
+          transform: translateX(-50%);
+}
+
+.scale {
+  margin: 0;
+  padding: 10px;
+
+  font-size: 0;
+  border: 0;
+}
+
+.scale__control {
+  position: relative;
+
+  width: 33px;
+  height: 33px;
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  vertical-align: middle;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 0;
+}
+
+.scale__control:hover,
+.scale__control:focus {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.scale__control:active {
+
+          transform: translateY(1px);
+}
+
+.scale__control--smaller {
+  border-radius: 50% 0 0 50%;
+}
+
+.scale__control--smaller::before {
+  content: "–";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  font-size: 20px;
+  line-height: 0;
+  color: #ffffff;
+
+
+          transform: translate(-50%, -50%);
+}
+
+.scale__control--value {
+  width: 60px;
+
+  font-size: 16px;
+  color: #ffffff;
+
+  border: solid rgba(255, 255, 255, 0.5);
+  border-width: 0 2px;
+}
+
+.scale__control--bigger {
+  border-radius: 0 50% 50% 0;
+}
+
+.scale__control--bigger::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  font-size: 20px;
+  line-height: 0;
+  color: #ffffff;
+
+
+          transform: translate(-50%, -50%);
+}
+
+
+/**
+ * попередній перегляд фото
+ */
+
+.img-upload__preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+     -ms-flex-align: center;
+        align-items: center;
+  -webkit-box-pack: center;
+     -ms-flex-pack: center;
+   justify-content: center;
+
+  width: 600px;
+  height: 600px;
+  border: 8px solid #fff;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.img-upload__preview img {
+  display: block;
+  max-width: 600px;
+  max-height: 600px;
+}
+
+
+/**
+ * Шкала регулювання глибини фільтра
+ */
+
+.effect-level {
+  position: absolute;
+  bottom: 9px;
+  left: 50%;
+
+  padding: 7px 11px 0;
+
+  width: 495px;
+  height: 34px;
+
+  font-size: 12px;
+  text-align: center;
+  color: #ffffff;
+  white-space: nowrap;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 34px;
+
+
+          transform: translateX(-50%);
+}
+
+.effect-level .noUi-target {
+  border-radius: 16px;
+}
+
+.effect-level .noUi-connects {
+  border-radius: 13px;
+}
+
+.effect-level .noUi-connect {
+  background: #ffe753;
+}
+
+.effect-level__value {
+  display: none;
+}
+
+
+/**
+ * Блок з ефектами, які можна застосувати до фото
+ */
+
+.effects {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 30px;
+  border: none;
+}
+
+.effects__list {
+  margin: 0;
+  padding: 0;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-pack: center;
+     -ms-flex-pack: center;
+   justify-content: center;
+
+  list-style: none;
+  text-align: center;
+}
+
+.effects__item {
+  margin-right: 5px;
+}
+
+.effects__label {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.effects__label:hover,
+.effects__label:focus,
+.effects__radio:checked + .effects__label {
+  color: #ffe753;
+}
+
+.effects__preview {
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 5px;
+
+  overflow: hidden;
+
+  font-size: 0;
+
+  background-color: #314359;
+  background-image: url("../img/upload-default-image.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% auto;
+
+  border: solid 5px transparent;
+  border-radius: 5px;
+}
+
+.effects__preview:last-of-type {
+  margin-right: 0;
+}
+
+.effects__radio:checked + .effects__label .effects__preview {
+  border: 5px solid #ffe753;
+}
+
+.effects__radio:focus + .effects__label .effects__preview {
+  outline: auto 5px highlight;
+}
+
+.effects__preview--chrome {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+}
+
+.effects__preview--sepia {
+  -webkit-filter: sepia(1);
+          filter: sepia(1);
+}
+
+.effects__preview--marvin {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
+.effects__preview--phobos {
+  -webkit-filter: blur(3px);
+          filter: blur(3px);
+}
+
+.effects__preview--heat {
+  -webkit-filter: brightness(3);
+          filter: brightness(3);
+}
+
+
+/**
+ * Блок додавання хештегів та коментаря до зображення
+ */
+
+.text {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 30px;
+
+  text-align: center;
+  border: none;
+}
+
+.text__hashtags {
+  width: 450px;
+
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  color: #000000;
+
+  border-radius: 5px;
+}
+
+.text__description {
+  width: 450px;
+  height: 100px;
+
+  margin: 0 auto;
+  padding: 15px 10px;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  color: #000000;
+
+  border-radius: 5px;
+}
+
+
+/**
+ * Кнопка для надсилання зображення
+ */
+
+.img-upload__submit {
+  padding: 10px 20px;
+
+  color: #ffe753;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+
+  background-color: rgba(255, 231, 82, 0.2);
+
+  border: 0;
+  border-radius: 4px;
+}
+
+.img-upload__submit:hover,
+.img-upload__submit:focus {
+  background-color: rgba(255, 231, 82, 0.4);
+}
+
+.img-upload__submit:active {
+
+          transform: translateY(1px);
+}
+
+.img-upload__submit:disabled,
+.img-upload__submit--disabled {
+  opacity: 0.3;
+}
+
+
+/*
+ * Кнопка для закриття вікна редагування зображення
+ */
+
+.img-upload__cancel {
+  position: absolute;
+  top: 0;
+  left: 610px;
+}
+
+.img-upload__cancel:active {
+
+          transform: translateY(1px);
+}
+
+
+/* Вікно повноекранного перегляду зображення
+   ========================================================================== */
+
+.big-picture__preview {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+
+  max-width: 600px;
+  min-height: 600px;
+
+  padding-bottom: 60px;
+
+
+          transform: translateX(-50%);
+}
+
+.big-picture__img img {
+  display: block;
+}
+
+.social {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+     -ms-flex-direction: column;
+         flex-direction: column;
+
+  max-width: 600px;
+
+  color: #000000;
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  text-transform: none;
+
+  background-color: #ffffff;
+}
+
+
+/*
+ * Підпис до зображення
+ */
+
+.social__header {
+  padding: 15px 15px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-pack: start;
+     -ms-flex-pack: start;
+   justify-content: flex-start;
+
+  -webkit-box-align: center;
+     -ms-flex-align: center;
+        align-items: center;
+
+  border-bottom: 1px solid #cccccc;
+}
+
+.social__picture {
+  display: block;
+  -ms-flex-negative: 0;
+        flex-shrink: 0;
+  margin-right: 15px;
+}
+
+.social__caption {
+  margin: 0;
+  margin-right: 15px;
+}
+
+.social__likes {
+  margin: 0;
+  margin-left: auto;
+  min-width: 125px;
+}
+
+.likes-count {
+  position: relative;
+  padding-left: 30px;
+
+  color: #c281f4;
+
+  cursor: pointer;
+}
+
+.likes-count:hover {
+  color: #6108a5;
+}
+
+.likes-count::before {
+  content: "";
+  position: absolute;
+
+  top: 3px;
+  left: 5px;
+
+  width: 20px;
+  height: 18px;
+
+  background-image: url("../img/sprite.png");
+  background-repeat: no-repeat;
+
+  background-position: -5px -56px;
+  opacity: 0.5;
+}
+
+.likes-count:hover::before,
+.likes-count:focus::before {
+  opacity: 1;
+}
+
+.likes-count:active::before,
+.likes-count--active::before {
+  opacity: 1;
+  background-position: -5px -81px;
+}
+
+
+/*
+ * Коментарі до зображення
+ */
+
+.social__comments {
+  -ms-flex-preferred-size: 100%;
+               flex-basis: 100%;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+  padding-top: 20px;
+}
+.social__author {
+  font-weight: bold;
+  margin: 0 0 2px
+}
+.social__comment {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 20px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-align: center;
+     -ms-flex-align: center;
+        align-items: center;
+}
+
+.social__comment-count {
+  padding-top: 20px;
+  padding-left: 65px;
+}
+
+.social__comments-loader {
+  padding: 0;
+  padding-left: 65px;
+  padding-bottom: 20px;
+  position: relative;
+
+  text-align: left;
+  color: #3b77c0;
+
+  background: none;
+  border: none;
+}
+
+.comments-loader {
+  text-align: left;
+  color: #3b77c0;
+
+  background: none;
+  border: none;
+}
+
+.social__text {
+  margin: 0;
+}
+
+
+/**
+ * Спіннер завантаження коментарів та його анімація
+ */
+
+.spinner::after,
+.comments-loader:active::after {
+  content: "";
+  position: absolute;
+  left: 200px;
+  top: 7px;
+
+  color: #3b77c0;
+  font-size: 6px;
+
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+
+  animation: spinner 1.3s infinite linear;
+  transform: translateZ(0);
+}
+
+@keyframes spinner {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #3b77c0, 1.8em -1.8em 0 0em rgba(51,102,204, 0.2), 2.5em 0em 0 0em rgba(51,102,204, 0.2), 1.75em 1.75em 0 0em rgba(51,102,204, 0.2), 0em 2.5em 0 0em rgba(51,102,204, 0.2), -1.8em 1.8em 0 0em rgba(51,102,204, 0.2), -2.6em 0em 0 0em rgba(51,102,204, 0.5), -1.8em -1.8em 0 0em rgba(51,102,204, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.7), 1.8em -1.8em 0 0em #3b77c0, 2.5em 0em 0 0em rgba(51,102,204, 0.2), 1.75em 1.75em 0 0em rgba(51,102,204, 0.2), 0em 2.5em 0 0em rgba(51,102,204, 0.2), -1.8em 1.8em 0 0em rgba(51,102,204, 0.2), -2.6em 0em 0 0em rgba(51,102,204, 0.2), -1.8em -1.8em 0 0em rgba(51,102,204, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.5), 1.8em -1.8em 0 0em rgba(51,102,204, 0.7), 2.5em 0em 0 0em #3b77c0, 1.75em 1.75em 0 0em rgba(51,102,204, 0.2), 0em 2.5em 0 0em rgba(51,102,204, 0.2), -1.8em 1.8em 0 0em rgba(51,102,204, 0.2), -2.6em 0em 0 0em rgba(51,102,204, 0.2), -1.8em -1.8em 0 0em rgba(51,102,204, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.2), 1.8em -1.8em 0 0em rgba(51,102,204, 0.5), 2.5em 0em 0 0em rgba(51,102,204, 0.7), 1.75em 1.75em 0 0em #3b77c0, 0em 2.5em 0 0em rgba(51,102,204, 0.2), -1.8em 1.8em 0 0em rgba(51,102,204, 0.2), -2.6em 0em 0 0em rgba(51,102,204, 0.2), -1.8em -1.8em 0 0em rgba(51,102,204, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.2), 1.8em -1.8em 0 0em rgba(51,102,204, 0.2), 2.5em 0em 0 0em rgba(51,102,204, 0.5), 1.75em 1.75em 0 0em rgba(51,102,204, 0.7), 0em 2.5em 0 0em #3b77c0, -1.8em 1.8em 0 0em rgba(51,102,204, 0.2), -2.6em 0em 0 0em rgba(51,102,204, 0.2), -1.8em -1.8em 0 0em rgba(51,102,204, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.2), 1.8em -1.8em 0 0em rgba(51,102,204, 0.2), 2.5em 0em 0 0em rgba(51,102,204, 0.2), 1.75em 1.75em 0 0em rgba(51,102,204, 0.5), 0em 2.5em 0 0em rgba(51,102,204, 0.7), -1.8em 1.8em 0 0em #3b77c0, -2.6em 0em 0 0em rgba(51,102,204, 0.2), -1.8em -1.8em 0 0em rgba(51,102,204, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.2), 1.8em -1.8em 0 0em rgba(51,102,204, 0.2), 2.5em 0em 0 0em rgba(51,102,204, 0.2), 1.75em 1.75em 0 0em rgba(51,102,204, 0.2), 0em 2.5em 0 0em rgba(51,102,204, 0.5), -1.8em 1.8em 0 0em rgba(51,102,204, 0.7), -2.6em 0em 0 0em #3b77c0, -1.8em -1.8em 0 0em rgba(51,102,204, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(51,102,204, 0.2), 1.8em -1.8em 0 0em rgba(51,102,204, 0.2), 2.5em 0em 0 0em rgba(51,102,204, 0.2), 1.75em 1.75em 0 0em rgba(51,102,204, 0.2), 0em 2.5em 0 0em rgba(51,102,204, 0.2), -1.8em 1.8em 0 0em rgba(51,102,204, 0.5), -2.6em 0em 0 0em rgba(51,102,204, 0.7), -1.8em -1.8em 0 0em #3b77c0;
+  }
+}
+
+
+/*
+ * Форма для відправки коментаря
+ */
+
+.social__footer {
+  border-top: 1px solid #cccccc;
+}
+
+.big-picture__cancel {
+  position: absolute;
+  top: 0;
+  left: 100%;
+
+  margin-left: 10px;
+}
+
+.social__footer {
+  position: relative;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  padding: 15px;
+}
+
+.social__footer-commentor {
+  display: block;
+
+  margin-right: 15px;
+}
+
+.social__footer-text {
+  width: 100%;
+
+  border: none;
+}
+
+.social__footer-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+
+  width: 34px;
+  height: 34px;
+
+  font-size: 0;
+
+  background-image: url("../img/sprite.png");
+  background-repeat: no-repeat;
+  background-position: -5px -106px;
+
+  opacity: 0.6;
+
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  border: none;
+}
+
+.social__footer-btn:hover,
+.social__footer-btn:focus {
+  opacity: 1;
+}
+
+.social__footer-btn:active,
+.social__footer-btn--active {
+  opacity: 1;
+  background-position: -5px -149px;
+}
+
+
+/* Підвал сайту (Футер)
+   ========================================================================== */
+
+.page-footer {
+  position: relative;
+  margin-top: 12px;
+  padding-bottom: 12px;
+}
+
+.page-footer__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-align: start;
+     -ms-flex-align: start;
+        align-items: flex-start;
+
+  -webkit-box-pack: justify;
+     -ms-flex-pack: justify;
+   justify-content: space-between;
+}
+
+
+
+
+/* Экраны с сообщениями для пользователя
+   ========================================================================== */
+
+.img-upload__message {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 0;
+
+  padding-top: 250px;
+
+  width: 600px;
+  height: 100%;
+
+  font-family: "Open Sans", "Arial", sans-serif;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #ffe753;
+
+  background-color: #3c3614;
+  transform: translateX(-50%);
+}
+
+
+/**
+ * Екрани помилки та успіху завантаження зображення
+ */
+
+.error,
+.success {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.error__inner,
+.success__inner {
+  position: relative;
+  width: 600px;
+  padding: 50px 20px;
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Open Sans", "Arial", sans-serif;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #eb0a34;
+  background-color: #150c2c;
+}
+
+.success__inner {
+  padding: 50px 20px;
+}
+
+.error__title {
+  position: relative;
+  margin-bottom: 36px;
+  letter-spacing: 0.17em;
+  font-size: 24px;
+}
+
+.success__title {
+  margin-bottom: 36px;
+  letter-spacing: 0.17em;
+  line-height: 1em;
+  font-size: 24px;
+  color: #aeaeff;
+}
+
+.error__title::before {
+  content: "";
+  display: block;
+  margin: 0 auto 20px;
+  width: 100px;
+  height: 100px;
+  background-image: url(../img/icon-warning.svg);
+  background-repeat: no-repeat;
+}
+
+.error__button,
+.success__button {
+  padding: 15px 30px;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1em;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  transition: .2s;
+}
+.error__button {
+  color: #eb0a34;
+  background: rgba(51 27 139,0.5);
+  background: linear-gradient(180deg, rgb(52 11 44) 0%, rgb(118 11 50) 100%);
+}
+.success__button {
+  color: #629fcb;
+  background: rgba(51 27 139, 0.5);
+  background: linear-gradient(180deg, rgb(120 159 255 / 16%) 0%, rgb(83 15 135) 100%);
+  box-shadow: 0 7px 20px #139cdf00;
+  text-shadow: 0 0 10px #ffffff00;
+  transition: .2s;
+}
+
+.error__button:hover,
+.error__button:focus {
+  background: rgba(51 27 139,0.5);
+  background: linear-gradient(180deg, rgb(52 11 44) 0%, rgb(118 11 50) 70%);
+  box-shadow: 0 13px 35px #eb0a3444;
+  text-shadow: 0 0 10px #eb0a3477;
+}
+.success__button:hover,
+.success__button:focus {
+  background: rgba(69 78 153,0.5);
+  background: linear-gradient(180deg, rgb(69 78 153) 0%, rgb(132 17 203) 70%);
+  box-shadow: 0 13px 35px #139cdf44;
+  text-shadow: 0 0 10px #ffffff8f;
+  color: #cfcef9;
+}
+
+.error__button:active,
+.success__button:active {
+  opacity: 0.6;
+}
+
+/* Error LOad Window */
+
+.errorLoad{
+  width: 800px;
+  height: 400px;
+  background: #3c3614;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 22.5%;
+  top: 22.5%;
+  z-index: 1;
+  border: 6px solid red;
+}
+
+.titleErrorLoad{
+  font-weight: 700;
+  font-size: 32px;
+  color: #ffe753;
+  margin-top: 10%;
+}
+.linkErrorLoad{
+  margin-top: 10%;
+  padding: 5px 10px;
+  color:red;
+  text-transform: uppercase;
+  background: transparent;
+  border: 2px solid red;
+  border-radius: 5px;
+  text-decoration:none;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+
+/**
+ * Екран завантаження зображення
+ */
+
+.img-upload__message--loading::before {
+  content: "";
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+
+  width: 300px;
+  height: 10px;
+
+  background-color: #8a7d2d;
+
+
+          transform: translateX(-50%);
+}
+
+.img-upload__message--loading::after {
+  content: "";
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+
+  width: 200px;
+  height: 10px;
+
+  background-color: #ffe753;
+
+
+          transform: translateX(-50%);
+}
+
+
+/* Адаптивність
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  .img-upload__wrapper {
+    padding-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1359px) {
+  .container {
+    width: 980px;
+  }
+
+  .pictures {
+    -ms-grid-columns: (1fr)[5];
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .img-upload {
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 3;
+    grid-column: 2 / span 3;
+
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 3;
+    grid-row: 1 / span 3;
+  }
+}
+
+@media (min-width: 0) and (max-width: 1023px) {
+  .container {
+    width: 600px;
+  }
+
+  .pictures {
+    -ms-grid-columns: (1fr)[3];
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .img-upload {
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 3;
+    grid-column: 1 / span 3;
+
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 3;
+    grid-row: 1 / span 3;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+
+          clip-path: inset(100%);
+
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
