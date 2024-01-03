@@ -1,35 +1,34 @@
 "use strict";
 
-import { createPhotoDescriptions } from "./main.js";
+const photosWrapper = document.querySelector(".pictures");
+const photosTemplate = document.querySelector("#picture").content;
 
-function displayPhoto(photoDescription) {
-  const photosWrapper = document.querySelector(".pictures");
-  const templateForPhotos = document
-    .querySelector("#picture")
-    .content.cloneNode(true);
-  const imgElement = templateForPhotos.querySelector(".picture__img");
-  const commentsElement = templateForPhotos.querySelector(".picture__comments");
-  const likesElement = templateForPhotos.querySelector(".picture__likes");
-  const fragment = document.createDocumentFragment();
-  fragment.appendChild(templateForPhotos);
+function createPhotoTemplate(photoDescription) {
+  const photoTemplate = photosTemplate.cloneNode(true);
+  const imgElement = photoTemplate.querySelector(".picture__img");
+  const commentsElement = photoTemplate.querySelector(".picture__comments");
+  const likesElement = photoTemplate.querySelector(".picture__likes");
   imgElement.src = photoDescription.url;
   commentsElement.textContent = photoDescription.comments.length;
   likesElement.textContent = photoDescription.likes;
-  photosWrapper.appendChild(fragment);
+  return photoTemplate;
 }
 
-function dipslayAllPhotos(photoDescriptions) {
+function createAllPhotosTemplate(photoDescriptions) {
+  const fragment = document.createDocumentFragment();
   photoDescriptions.forEach((photoDescription) => {
-    displayPhoto(photoDescription);
+    const photoTemplate = createPhotoTemplate(photoDescription);
+    fragment.appendChild(photoTemplate);
   });
+  return fragment;
 }
 
-createPhotoDescriptions()
-  .then((photoDescriptions) => {
-    dipslayAllPhotos(photoDescriptions);
-  })
-  .catch((error) =>
-    console.error(
-      `Ошибка при выполнении createPhotoDescriptions: ${error.message}`
-    )
-  );
+export function displayPhoto(photoDescription) {
+  const photoFragment = createPhotoTemplate(photoDescription);
+  photosWrapper.appendChild(photoFragment);
+}
+
+export function displayAllPhotos(photoDescriptions) {
+  const photosFragment = createAllPhotosTemplate(photoDescriptions);
+  photosWrapper.appendChild(photosFragment);
+}

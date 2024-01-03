@@ -1,5 +1,7 @@
 "use strict";
 
+import { displayAllPhotos } from "./rendering-images.js";
+
 const numberOfUserPhotos = 25;
 const numberOfUserAvatars = 6;
 const minСommentID = 1;
@@ -8,6 +10,9 @@ const minNumberOfLikes = 15;
 const maxNumberOfLikes = 200;
 const minNumberOfComments = 10;
 const maxNumberOfComments = 25;
+const hipsumAPIURL = "https://hipsum.co/api/?type=hipster-latin";
+const randommerAPIURL = "https://randommer.io/api/Name?nameType=firstname";
+const randommerAPIKey = "8d01faaf165e413084411b74a0b88829";
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -59,7 +64,7 @@ function getСommentsForPhotos() {
 
 async function requestDescriptionsForPhotos() {
   try {
-    const url = `https://hipsum.co/api/?type=hipster-latin&sentences=${numberOfUserPhotos}`;
+    const url = `${hipsumAPIURL}&sentences=${numberOfUserPhotos}`;
     const response = await requestData(url);
     const descriptions = await parseReceivedDataIntoJSON(response);
     const highlightedDescriptions = descriptions[0]
@@ -83,13 +88,12 @@ async function requestDescriptionsForPhotos() {
 
 async function requestNamesForComments(quantity) {
   try {
-    const url = `https://randommer.io/api/Name?nameType=firstname&quantity=${quantity}`;
-    const apiKey = "8d01faaf165e413084411b74a0b88829";
+    const url = `${randommerAPIURL}&quantity=${quantity}`;
     const response = await requestData(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-Api-Key": apiKey,
+        "X-Api-Key": randommerAPIKey,
       },
     });
     const names = await parseReceivedDataIntoJSON(response);
@@ -99,7 +103,7 @@ async function requestNamesForComments(quantity) {
   }
 }
 
-export async function createPhotoDescriptions() {
+async function createPhotoDescriptions() {
   try {
     const commentators = await requestNamesForComments(numberOfUserPhotos);
     const descriptions = await requestDescriptionsForPhotos();
@@ -143,3 +147,13 @@ export async function createPhotoDescriptions() {
     console.error(`Ошибка при создании описаний фотографий: ${error.message}`);
   }
 }
+
+createPhotoDescriptions()
+  .then((photoDescriptions) => {
+    displayAllPhotos(photoDescriptions);
+  })
+  .catch((error) =>
+    console.error(
+      `Ошибка при выполнении createPhotoDescriptions: ${error.message}`
+    )
+  );
