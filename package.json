@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "photos-app",
   "version": "1.0.0",
   "private": true,
@@ -27,7 +28,7 @@
     "hilel",
     "study"
   ],
-  "author": "RybakV",
+  "author": "Anton Sharenko",
   "dependencies": {
     "nouislider": "^15.7.0"
   }

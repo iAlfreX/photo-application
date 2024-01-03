@@ -1,27 +1,13 @@
 "use strict";
 
-const fs = require("fs");
-const pathToPhotoDirectory = "photos";
-const pathToAvatarDirectory = "img";
-
-function countFilesInDirectory(directoryPath) {
-  try {
-    const files = fs.readdirSync(directoryPath);
-    return files.length;
-  } catch (error) {
-    console.error(`Ошибка при чтении директории: ${error.message}`);
-  }
-}
-
-function countAvatarFilesInDirectory(directoryPath) {
-  try {
-    const files = fs.readdirSync(directoryPath);
-    const avatarFiles = files.filter((file) => /^avatar-\d+\.svg$/.test(file));
-    return avatarFiles.length;
-  } catch (error) {
-    console.error(`Ошибка при подсчете файлов: ${error.message}`);
-  }
-}
+const numberOfUserPhotos = 25;
+const numberOfUserAvatars = 6;
+const minСommentID = 1;
+const maxСommentID = 1000;
+const minNumberOfLikes = 15;
+const maxNumberOfLikes = 200;
+const minNumberOfComments = 10;
+const maxNumberOfComments = 25;
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -73,15 +59,14 @@ function getСommentsForPhotos() {
 
 async function requestDescriptionsForPhotos() {
   try {
-    const url = `https://hipsum.co/api/?type=hipster-latin&sentences=${countFilesInDirectory(
-      pathToPhotoDirectory
-    )}`;
+    const url = `https://hipsum.co/api/?type=hipster-latin&sentences=${numberOfUserPhotos}`;
     const response = await requestData(url);
     const descriptions = await parseReceivedDataIntoJSON(response);
     const highlightedDescriptions = descriptions[0]
       .split(". ")
       .map((description, index, descriptionsArray) => {
         const isLastElement = index === descriptionsArray.length - 1;
+
         if (!isLastElement) {
           return (description += ".");
         }
@@ -114,42 +99,38 @@ async function requestNamesForComments(quantity) {
   }
 }
 
-// Основная функция
-async function createPhotoDescriptions() {
+export async function createPhotoDescriptions() {
   try {
-    const commentators = await requestNamesForComments(
-      `${countFilesInDirectory(pathToPhotoDirectory)}`
-    );
+    const commentators = await requestNamesForComments(numberOfUserPhotos);
     const descriptions = await requestDescriptionsForPhotos();
     const comments = getСommentsForPhotos();
-    const photoDescriptions = new Array(
-      countFilesInDirectory(pathToPhotoDirectory)
-    )
-      .fill(null)
+    const photoDescriptions = new Array(numberOfUserPhotos)
+      .fill()
       .map((_, index) => {
         const commentsIdentifiers = new Set();
-
         return {
           id: index + 1,
-          url: `${pathToPhotoDirectory}/${index + 1}.jpg`,
+          url: `photos/${index + 1}.jpg`,
           description: descriptions[index],
-          likes: getRandomNumber(15, 200),
-          comments: new Array(getRandomNumber(10, 25))
-            .fill(null)
+          likes: getRandomNumber(minNumberOfLikes, maxNumberOfLikes),
+          comments: new Array(
+            getRandomNumber(minNumberOfComments, maxNumberOfComments)
+          )
+            .fill()
             .map((_, index) => {
               let commentId;
               const sortedCommentators = commentators.sort(randomSortArray);
 
               do {
-                commentId = getRandomNumber(25, 150);
+                commentId = getRandomNumber(minСommentID, maxСommentID);
               } while (commentsIdentifiers.has(commentId));
 
               commentsIdentifiers.add(commentId);
               return {
                 id: commentId,
-                avatar: `${pathToAvatarDirectory}/avatar-${getRandomNumber(
+                avatar: `img/avatar-${getRandomNumber(
                   1,
-                  countAvatarFilesInDirectory(pathToAvatarDirectory)
+                  numberOfUserAvatars
                 )}.svg`,
                 message: comments[getRandomNumber(0, comments.length - 1)],
                 name: sortedCommentators[index],
@@ -157,17 +138,8 @@ async function createPhotoDescriptions() {
             }),
         };
       });
-
     return photoDescriptions;
   } catch (error) {
     console.error(`Ошибка при создании описаний фотографий: ${error.message}`);
   }
 }
-
-createPhotoDescriptions()
-  .then((data) => console.dir(data, { depth: null }))
-  .catch((error) => {
-    console.error(
-      `Ошибка при выполнении createPhotoDescriptions: ${error.message}`
-    );
-  });
