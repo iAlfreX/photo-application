@@ -1,6 +1,5 @@
 "use strict";
 
-const photosWrapper = document.querySelector(".pictures");
 const photosTemplate = document.querySelector("#picture").content;
 
 function createPhotoTemplate(photoDescription) {
@@ -14,21 +13,12 @@ function createPhotoTemplate(photoDescription) {
   return photoTemplate;
 }
 
-function createAllPhotosTemplate(photoDescriptions) {
-  const fragment = document.createDocumentFragment();
+export function displayAllPhotos(photoDescriptions) {
+  const photosWrapper = document.querySelector(".pictures");
+  const photosFragment = document.createDocumentFragment();
   photoDescriptions.forEach((photoDescription) => {
     const photoTemplate = createPhotoTemplate(photoDescription);
-    fragment.appendChild(photoTemplate);
+    photosFragment.appendChild(photoTemplate);
   });
-  return fragment;
-}
-
-export function displayPhoto(photoDescription) {
-  const photoFragment = createPhotoTemplate(photoDescription);
-  photosWrapper.appendChild(photoFragment);
-}
-
-export function displayAllPhotos(photoDescriptions) {
-  const photosFragment = createAllPhotosTemplate(photoDescriptions);
   photosWrapper.appendChild(photosFragment);
 }

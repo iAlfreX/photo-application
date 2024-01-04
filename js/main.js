@@ -10,9 +10,6 @@ const minNumberOfLikes = 15;
 const maxNumberOfLikes = 200;
 const minNumberOfComments = 10;
 const maxNumberOfComments = 25;
-const hipsumAPIURL = "https://hipsum.co/api/?type=hipster-latin";
-const randommerAPIURL = "https://randommer.io/api/Name?nameType=firstname";
-const randommerAPIKey = "8d01faaf165e413084411b74a0b88829";
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -64,8 +61,8 @@ function getСommentsForPhotos() {
 
 async function requestDescriptionsForPhotos() {
   try {
-    const url = `${hipsumAPIURL}&sentences=${numberOfUserPhotos}`;
-    const response = await requestData(url);
+    const hipsumURL = `https://hipsum.co/api/?type=hipster-latin&sentences=${numberOfUserPhotos}`;
+    const response = await requestData(hipsumURL);
     const descriptions = await parseReceivedDataIntoJSON(response);
     const highlightedDescriptions = descriptions[0]
       .split(". ")
@@ -88,8 +85,9 @@ async function requestDescriptionsForPhotos() {
 
 async function requestNamesForComments(quantity) {
   try {
-    const url = `${randommerAPIURL}&quantity=${quantity}`;
-    const response = await requestData(url, {
+    const randommerURL = `https://randommer.io/api/Name?nameType=firstname&quantity=${quantity}`;
+    const randommerAPIKey = "8d01faaf165e413084411b74a0b88829";
+    const response = await requestData(randommerURL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -105,12 +103,14 @@ async function requestNamesForComments(quantity) {
 
 async function createPhotoDescriptions() {
   try {
+    let commentId = null;
     const commentators = await requestNamesForComments(numberOfUserPhotos);
     const descriptions = await requestDescriptionsForPhotos();
     const comments = getСommentsForPhotos();
     const photoDescriptions = new Array(numberOfUserPhotos)
       .fill()
       .map((_, index) => {
+        const sortedCommentators = commentators.sort(randomSortArray);
         const commentsIdentifiers = new Set();
         return {
           id: index + 1,
@@ -122,9 +122,6 @@ async function createPhotoDescriptions() {
           )
             .fill()
             .map((_, index) => {
-              let commentId;
-              const sortedCommentators = commentators.sort(randomSortArray);
-
               do {
                 commentId = getRandomNumber(minСommentID, maxСommentID);
               } while (commentsIdentifiers.has(commentId));
