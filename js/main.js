@@ -15,7 +15,7 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomSortArray() {
+function sortRandomlyArray() {
   return Math.random() - 0.5;
 }
 
@@ -101,43 +101,59 @@ async function requestNamesForComments(quantity) {
   }
 }
 
+function getRandomCommentId(commentsIdentifiers) {
+  let commentId = null;
+
+  do {
+    commentId = getRandomNumber(minСommentID, maxСommentID);
+  } while (commentsIdentifiers.has(commentId));
+
+  commentsIdentifiers.add(commentId);
+  return commentId;
+}
+
+function generateComments(quantity, comments, commentators, commentsId) {
+  return new Array(quantity).fill().map((_, index) => {
+    return {
+      id: getRandomCommentId(commentsId),
+      avatar: `img/avatar-${getRandomNumber(1, numberOfUserAvatars)}.svg`,
+      message: comments[getRandomNumber(0, comments.length - 1)],
+      name: commentators[index],
+    };
+  });
+}
+
+function createPhotoDescription(index, descriptions, commentators, comments) {
+  const sortedCommentators = commentators.sort(sortRandomlyArray);
+  const commentsIdentifiers = new Set();
+  return {
+    id: index + 1,
+    url: `photos/${index + 1}.jpg`,
+    description: descriptions[index],
+    likes: getRandomNumber(minNumberOfLikes, maxNumberOfLikes),
+    comments: generateComments(
+      getRandomNumber(minNumberOfComments, maxNumberOfComments),
+      comments,
+      sortedCommentators,
+      commentsIdentifiers
+    ),
+  };
+}
+
 async function createPhotoDescriptions() {
   try {
-    let commentId = null;
     const commentators = await requestNamesForComments(numberOfUserPhotos);
     const descriptions = await requestDescriptionsForPhotos();
     const comments = getСommentsForPhotos();
     const photoDescriptions = new Array(numberOfUserPhotos)
       .fill()
       .map((_, index) => {
-        const sortedCommentators = commentators.sort(randomSortArray);
-        const commentsIdentifiers = new Set();
-        return {
-          id: index + 1,
-          url: `photos/${index + 1}.jpg`,
-          description: descriptions[index],
-          likes: getRandomNumber(minNumberOfLikes, maxNumberOfLikes),
-          comments: new Array(
-            getRandomNumber(minNumberOfComments, maxNumberOfComments)
-          )
-            .fill()
-            .map((_, index) => {
-              do {
-                commentId = getRandomNumber(minСommentID, maxСommentID);
-              } while (commentsIdentifiers.has(commentId));
-
-              commentsIdentifiers.add(commentId);
-              return {
-                id: commentId,
-                avatar: `img/avatar-${getRandomNumber(
-                  1,
-                  numberOfUserAvatars
-                )}.svg`,
-                message: comments[getRandomNumber(0, comments.length - 1)],
-                name: sortedCommentators[index],
-              };
-            }),
-        };
+        return createPhotoDescription(
+          index,
+          descriptions,
+          commentators,
+          comments
+        );
       });
     return photoDescriptions;
   } catch (error) {
