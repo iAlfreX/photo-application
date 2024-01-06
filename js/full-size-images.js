@@ -2,18 +2,18 @@
 
 import { photosWrapper, fillBasicPhotoData } from "./rendering-images.js";
 
-const body = document.querySelector("body");
+const body = document.body;
 const imageModalWindow = document.querySelector(".big-picture");
 const commentsWrapper = imageModalWindow.querySelector(".social__comments");
+const commentElement = commentsWrapper.querySelector(".social__comment");
 document.addEventListener("keydown", handleKeyClick);
 
 export function activateFullSizePhotoMode(photoDescriptions) {
+  const closeButton = imageModalWindow.querySelector(".big-picture__cancel");
   photosWrapper.addEventListener("click", (event) => {
     handleClickOnThumbnail(photoDescriptions, event);
   });
-  imageModalWindow
-    .querySelector(".big-picture__cancel")
-    .addEventListener("click", closefullSizePhotoMode);
+  closeButton.addEventListener("click", closeFullSizePhotoMode);
 }
 
 function handleClickOnThumbnail(photoDescriptions, event) {
@@ -26,7 +26,18 @@ function handleClickOnThumbnail(photoDescriptions, event) {
       const photoDescription = photoDescriptions.find(
         (photoDescription) => photoDescription.id === imageID
       );
-      openfullSizePhotoMode(photoDescription);
+      openFullSizePhotoMode(photoDescription);
+    }
+  }
+}
+
+function handleKeyClick(event) {
+  const isFullSizePhotoModeOpen =
+    !imageModalWindow.classList.contains("hidden");
+
+  if (isFullSizePhotoModeOpen) {
+    if (event.key === "Escape") {
+      closeFullSizePhotoMode();
     }
   }
 }
@@ -47,6 +58,22 @@ function extractNumberFromPath(path) {
   return null;
 }
 
+function openFullSizePhotoMode(photoDescription) {
+  const commentsCounter = imageModalWindow.querySelector(
+    ".social__comment-count"
+  );
+  fillFullSizePhotoModeWithData(photoDescription);
+  imageModalWindow.classList.remove("hidden");
+  imageModalWindow.scrollTop = 0;
+  body.classList.add("modal-open");
+  commentsCounter.style.display = "none";
+}
+
+function closeFullSizePhotoMode() {
+  imageModalWindow.classList.add("hidden");
+  body.classList.remove("modal-open");
+}
+
 function fillFullSizePhotoModeWithData(photoDescription) {
   const imageElement = imageModalWindow.querySelector("img");
   const likesElement = imageModalWindow.querySelector(".likes-count");
@@ -62,26 +89,6 @@ function fillFullSizePhotoModeWithData(photoDescription) {
   descriptionElement.textContent = photoDescription.description;
 }
 
-function openfullSizePhotoMode(photoDescription) {
-  const commentsCounter = imageModalWindow.querySelector(
-    ".social__comment-count"
-  );
-  fillFullSizePhotoModeWithData(photoDescription);
-  imageModalWindow.classList.remove("hidden");
-  imageModalWindow.scrollTop = 0;
-  body.classList.add("modal-open");
-  commentsCounter.style.display = "none";
-}
-
-function closefullSizePhotoMode(event) {
-  const clickedElement = event.target;
-
-  if (clickedElement.tagName === "BUTTON") {
-    imageModalWindow.classList.add("hidden");
-    body.classList.remove("modal-open");
-  }
-}
-
 function fillCommentsBlock(comments) {
   const commentsFragment = document.createDocumentFragment();
   comments.forEach((comment) => {
@@ -93,23 +100,13 @@ function fillCommentsBlock(comments) {
 }
 
 function createCommentTemplate(comment) {
-  const commentTemplate = commentsWrapper
-    .querySelector(".social__comment")
-    .cloneNode(true);
+  const commentTemplate = commentElement.cloneNode(true);
   const commentAvatar = commentTemplate.querySelector(".social__picture");
   const commentText = commentTemplate.querySelector(".social__text");
+  const commentAuthor = commentTemplate.querySelector(".social__author");
   commentAvatar.src = comment.avatar;
   commentAvatar.alt = comment.name;
   commentText.textContent = comment.message;
+  commentAuthor.textContent = comment.name;
   return commentTemplate;
-}
-
-function handleKeyClick(event) {
-  const isFullSizePhotoModeOpen =
-    !imageModalWindow.classList.contains("hidden");
-
-  if (event.key === "Escape" && isFullSizePhotoModeOpen) {
-    imageModalWindow.classList.add("hidden");
-    body.classList.remove("modal-open");
-  }
 }
