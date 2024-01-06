@@ -1,6 +1,7 @@
 "use strict";
 
 import { displayAllPhotos } from "./rendering-images.js";
+import { activateFullSizePhotoMode } from "./full-size-images.js";
 
 const numberOfUserPhotos = 25;
 const numberOfUserAvatars = 6;
@@ -17,6 +18,17 @@ function getRandomNumber(min, max) {
 
 function sortRandomlyArray() {
   return Math.random() - 0.5;
+}
+
+function getRandomCommentId(commentsIdentifiers) {
+  let commentId = null;
+
+  do {
+    commentId = getRandomNumber(minСommentID, maxСommentID);
+  } while (commentsIdentifiers.has(commentId));
+
+  commentsIdentifiers.add(commentId);
+  return commentId;
 }
 
 async function requestData(url, params = null) {
@@ -101,17 +113,6 @@ async function requestNamesForComments(quantity) {
   }
 }
 
-function getRandomCommentId(commentsIdentifiers) {
-  let commentId = null;
-
-  do {
-    commentId = getRandomNumber(minСommentID, maxСommentID);
-  } while (commentsIdentifiers.has(commentId));
-
-  commentsIdentifiers.add(commentId);
-  return commentId;
-}
-
 function generateComments(quantity, comments, commentators, commentsId) {
   return new Array(quantity).fill().map((_, index) => {
     return {
@@ -164,6 +165,7 @@ async function createPhotoDescriptions() {
 createPhotoDescriptions()
   .then((photoDescriptions) => {
     displayAllPhotos(photoDescriptions);
+    activateFullSizePhotoMode(photoDescriptions);
   })
   .catch((error) =>
     console.error(
