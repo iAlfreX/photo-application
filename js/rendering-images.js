@@ -10,6 +10,7 @@ export function fillBasicPhotoData(
   photoDescription
 ) {
   imgEl.src = photoDescription.url;
+  imgEl.dataset.id = photoDescription.id;
   commentsEl.textContent = photoDescription.comments.length;
   likesEl.textContent = photoDescription.likes;
 }

@@ -1,11 +1,10 @@
 "use strict";
 
-import { photosWrapper, fillBasicPhotoData } from "./rendering-images.js";
+import { photosWrapper } from "./rendering-images.js";
 
 const body = document.body;
 const imageModalWindow = document.querySelector(".big-picture");
-const commentsWrapper = imageModalWindow.querySelector(".social__comments");
-const commentElement = commentsWrapper.querySelector(".social__comment");
+const commentsTemplate = document.querySelector("#social__comment").content;
 document.addEventListener("keydown", handleKeyClick);
 
 export function activateFullSizePhotoMode(photoDescriptions) {
@@ -19,15 +18,12 @@ export function activateFullSizePhotoMode(photoDescriptions) {
 function handleClickOnThumbnail(photoDescriptions, event) {
   const clickedElement = event.target;
 
-  if (clickedElement.tagName === "IMG") {
-    const imageID = extractNumberFromPath(clickedElement.src);
-
-    if (imageID) {
-      const photoDescription = photoDescriptions.find(
-        (photoDescription) => photoDescription.id === imageID
-      );
-      openFullSizePhotoMode(photoDescription);
-    }
+  if (clickedElement.className === "picture__img") {
+    const imageID = +clickedElement.dataset.id;
+    const photoDescription = photoDescriptions.find(
+      (photoDescription) => photoDescription.id === imageID
+    );
+    openFullSizePhotoMode(photoDescription);
   }
 }
 
@@ -40,22 +36,6 @@ function handleKeyClick(event) {
       closeFullSizePhotoMode();
     }
   }
-}
-
-function extractNumberFromPath(path) {
-  const pathParts = path.split("/");
-  const fileName = pathParts[pathParts.length - 1];
-
-  if (fileName.endsWith(".jpg")) {
-    const numberStr = fileName.replace(".jpg", "");
-    const number = +numberStr;
-
-    if (!isNaN(number)) {
-      return number;
-    }
-  }
-
-  return null;
 }
 
 function openFullSizePhotoMode(photoDescription) {
@@ -79,17 +59,15 @@ function fillFullSizePhotoModeWithData(photoDescription) {
   const likesElement = imageModalWindow.querySelector(".likes-count");
   const commentsElement = imageModalWindow.querySelector(".comments-count");
   const descriptionElement = imageModalWindow.querySelector(".social__caption");
-  fillBasicPhotoData(
-    imageElement,
-    commentsElement,
-    likesElement,
-    photoDescription
-  );
-  fillCommentsBlock(photoDescription.comments);
+  imageElement.src = photoDescription.url;
+  likesElement.textContent = photoDescription.likes;
+  commentsElement.textContent = photoDescription.comments.length;
   descriptionElement.textContent = photoDescription.description;
+  fillCommentsBlock(photoDescription.comments);
 }
 
 function fillCommentsBlock(comments) {
+  const commentsWrapper = imageModalWindow.querySelector(".social__comments");
   const commentsFragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     const commentTemplate = createCommentTemplate(comment);
@@ -100,7 +78,7 @@ function fillCommentsBlock(comments) {
 }
 
 function createCommentTemplate(comment) {
-  const commentTemplate = commentElement.cloneNode(true);
+  const commentTemplate = commentsTemplate.cloneNode(true);
   const commentAvatar = commentTemplate.querySelector(".social__picture");
   const commentText = commentTemplate.querySelector(".social__text");
   const commentAuthor = commentTemplate.querySelector(".social__author");
